@@ -32,39 +32,27 @@ class App extends Component {
       );
 
 
-
-
       instance.events.CompleteTodo()
-      .on('data', function(event){
+      .on('data', (event) =>{
           console.log(event); // same results as the optional callback above
+          this.setState({todos:event.returnValues.todos})
       })
-      .on('changed', function(event){
+      .on('changed', (event) => {
           // remove event from local database
       })
       .on('error', console.error);
 
 
 
-      instance.events.CompleteTodo({}, (error, data) => {
-        if (error)
-          console.log("Error: " + error);
-        else 
-          console.log("Log data: " + data);
-      });
-
-      instance.events.allEvents()
-      .on('data', (event) => {
-        console.log(event);
-      })
-      .on('error', console.error);
 
       this.setState({ web3, accounts, contract: instance }, () => {
-        try {
-          this.getTodos()
-        } catch(e) {
-          console.log(e)
-        }
+        // try {
+        //   this.getTodos()
+        // } catch(e) {
+        //   console.log(e)
+        // }
       });
+
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(

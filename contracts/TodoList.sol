@@ -36,8 +36,8 @@ contract TodoList {
     }
 
     function _completeTodo(uint _id) public returns (bool) {
-        emit CompleteTodo(msg.sender, listOwner[msg.sender].list);
         listOwner[msg.sender].list[_id].isComplete = true;
+        emit CompleteTodo(msg.sender, listOwner[msg.sender].list);
         return true;
     }
 }
