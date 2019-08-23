@@ -35,7 +35,7 @@ class App extends Component {
       instance.events.CompleteTodo()
       .on('data', (event) =>{
           console.log(event); // same results as the optional callback above
-          this.setState({todos:event.returnValues.todos})
+         // this.setState({todos:event.returnValues.todos})
       })
       .on('changed', (event) => {
           // remove event from local database
@@ -46,11 +46,11 @@ class App extends Component {
 
 
       this.setState({ web3, accounts, contract: instance }, () => {
-        // try {
-        //   this.getTodos()
-        // } catch(e) {
-        //   console.log(e)
-        // }
+        try {
+          this.getTodos()
+        } catch(e) {
+          console.log(e)
+        }
       });
 
     } catch (error) {
@@ -64,13 +64,12 @@ class App extends Component {
 
   getTodos = async () => {
     const { contract } = this.state;
-    const list = await contract.methods._getList().call();
+    const list = await contract.methods._getList().call()
     this.setState({todos:list})
   }
 
 
   add = async todo => {
-    console.log("fail here")
     const { accounts, contract, todos } = this.state;
     const added = await contract.methods._add(todo).send({ from: accounts[0] });
 
@@ -78,10 +77,12 @@ class App extends Component {
   }
 
   completeTodo = async id => {
-    console.log("completing")
+    if (this.state.todos[id].isComplete) {
+      return alert("Todo was completed already");
+    }
     const { accounts, contract, todos } = this.state;
     const completed = await contract.methods._completeTodo(id).send({ from: accounts[0] });
-    console.log({completed})
+    this.getTodos();
   }
 
   render() {

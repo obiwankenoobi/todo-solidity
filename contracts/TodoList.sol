@@ -21,6 +21,7 @@ contract TodoList {
     }
 
     function _getList() public view returns (Todo[] memory) {
+        require(listOwner[msg.sender].list.length == 0, "No list found");
         return listOwner[msg.sender].list;
     }
 
@@ -35,9 +36,11 @@ contract TodoList {
         return listOwner[msg.sender].list[_id];
     }
 
-    function _completeTodo(uint _id) public returns (bool) {
+    function _completeTodo(uint _id) public returns (Todo[] memory) {
+        require(!listOwner[msg.sender].list[_id].isComplete, "Todo was completed");
+
         listOwner[msg.sender].list[_id].isComplete = true;
         emit CompleteTodo(msg.sender, listOwner[msg.sender].list);
-        return true;
+        return listOwner[msg.sender].list;
     }
 }
