@@ -96,6 +96,7 @@ class App extends Component {
         <div
           className="row justify-content-center align-items-center h-100"
           style={{
+
           }}>
           <input 
             className="justify-content-center"
@@ -111,12 +112,14 @@ class App extends Component {
           </button>
         </div>
         <br/>
+        <div style={{width:"50%"}}>
         {
           this.state.todos.map((i, idx) => (
             <div  
               onClick={() => this.completeTodo(idx)}
               key={idx}
               style={{
+                width:"auto",
                 cursor: "pointer",
                 textDecoration:i.isComplete ? "line-through" : "none"
               }}>
@@ -125,6 +128,8 @@ class App extends Component {
 
           ))
         }
+        </div>
+
       </div>
     );
   }
